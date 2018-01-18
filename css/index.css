@@ -1,0 +1,297 @@
+.notepad {
+  width: 1200px;
+  height: 100%;
+  background: #fff;
+  margin: 0 auto;
+  padding: 30px 0;
+}
+.notepad .not-box {
+  width: 600px;
+  height: auto;
+  margin: 0 auto;
+  background: #eee;
+}
+.notepad .not-box .not-title {
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  font-size: 28px;
+  color: #ff8140;
+  padding: 15px 0;
+}
+.notepad .not-box .not-search {
+  width: 100%;
+  height: 30px;
+  margin: 0 10px;
+  margin-bottom: 20px;
+  position: relative;
+}
+.notepad .not-box .not-search input[type="text"] {
+  width: calc(100% - 137px);
+  height: calc(100% - 2px);
+  border: 1px solid #dfdfdf;
+  color: #333;
+  font-size: 18px;
+  padding: 0 10px;
+  padding-right: 25px;
+}
+.notepad .not-box .not-search input[type="button"] {
+  margin-left: 20px;
+  width: 60px;
+  height: 100%;
+  border: none;
+  background: #ff8140;
+  color: #fff;
+  font-size: 18px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.notepad .not-box .not-search input[type="button"].not-empty {
+  position: absolute;
+  background: #efefef;
+  right: 105px;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  top: 5px;
+  display: none;
+}
+.notepad .not-box .not-search input[type="button"].not-empty.active {
+  display: block;
+}
+.notepad .not-box .not-list-box {
+  margin: 0 10px;
+  width: calc(100% - 20px);
+  height: auto;
+  display: none;
+}
+.notepad .not-box .not-list-box.active {
+  display: block;
+}
+.notepad .not-box .not-list-box .not-list {
+  width: 100%;
+  height: 300px;
+  overflow-y: auto;
+}
+.notepad .not-box .not-list-box .not-list .not-item {
+  border-bottom: 1px solid #ddd;
+  width: calc(100% - 32px);
+  height: auto;
+  font-size: 18px;
+  padding: 5px 0;
+  padding-left: 30px;
+  cursor: pointer;
+  background: #52d2c2;
+  border: 1px solid #52d2c2;
+  border-top: 0;
+  border-bottom: 2px solid #efefef;
+}
+.notepad .not-box .not-list-box .not-list .not-item:hover {
+  background: #efefef;
+  border: 1px solid #52d2c2;
+  border-bottom: 2px solid #52d2c2;
+}
+.notepad .not-box .not-list-box .not-list .not-item .not-top {
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  color: #666;
+}
+.notepad .not-box .not-list-box .not-list .not-item .not-top .not-time {
+  width: 100px;
+}
+.notepad .not-box .not-list-box .not-list .not-item .not-top .not-name {
+  width: calc(100% - 120px);
+  height: 30px;
+  margin-left: 20px;
+}
+.notepad .not-box .not-list-box .not-list .not-item .not-bottom {
+  color: #fff;
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+}
+.notepad .not-box .not-list-box .not-list .not-item .not-btnbox {
+  width: 100%;
+  height: auto;
+  padding: 5px 0;
+}
+.notepad .not-box .not-list-box .not-list .not-item .not-btnbox input[type="button"] {
+  width: 60px;
+  height: 30px;
+  background: #ff8140;
+  color: #fff;
+  font-size: 18px;
+  border: none;
+  float: right;
+  margin-right: 60px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.notepad .not-box .not-list-box .not-list .not-item .not-btnbox input[type="button"]:hover {
+  background: #ff000f;
+}
+.notepad .not-box .not-list-box .not-len {
+  width: calc(100% - 30px);
+  height: 30px;
+  line-height: 30px;
+  font-size: 20px;
+  color: #ff8140;
+  text-align: center;
+  padding-right: 30px;
+  margin-top: 10px;
+  background: #37dba6;
+}
+.notepad .not-box .not-word {
+  width: calc(100% - 2px);
+  height: auto;
+  border: 1px solid #ddd;
+  background: #fff;
+  display: none;
+}
+.notepad .not-box .not-word.active {
+  display: block;
+}
+.notepad .not-box .not-word .not-time {
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  color: #333;
+  font-size: 18px;
+  padding: 10px 0;
+  background: #eee;
+}
+.notepad .not-box .not-word input[type="text"] {
+  padding: 0 10px;
+  height: calc(100% - 4px);
+  border: 1px solid #dfdfdf;
+  color: #333;
+  font-size: 18px;
+  margin-left: 5px;
+}
+.notepad .not-box .not-word .time {
+  width: 120px;
+  height: 100%;
+  margin-right: 10px;
+  color: #333;
+  font-size: 18px;
+}
+.notepad .not-box .not-word textarea[name="word"] {
+  background: #fff;
+  border: none;
+  width: 100%;
+  height: 150px;
+  overflow-y: auto;
+  resize: none;
+  font-size: 18px;
+  color: #333;
+  line-height: 24px;
+  text-indent: 30px;
+  padding: 10px 0;
+}
+.notepad .not-box .not-btn {
+  width: 100%;
+  height: 30px;
+  padding: 20px 0;
+}
+.notepad .not-box .not-btn input[type="button"] {
+  width: 60px;
+  height: 30px;
+  background: #ff8140;
+  color: #fff;
+  font-size: 18px;
+  border: none;
+  float: right;
+  margin-right: 60px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.notepad .not-box .not-btn input[type="button"].active {
+  display: none;
+}
+.notepad .not-box .not-btn input[type="button"]:hover {
+  background: #ff000f;
+}
+.notepad .modal {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,0.6);
+}
+.notepad .popbox {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+}
+.notepad .popbox .pop-lixt {
+  width: 300px;
+  height: 160px;
+  background: #fff;
+  position: relative;
+  top: 40%;
+  left: 50%;
+  margin-top: -80px;
+  margin-left: -150px;
+  border-radius: 5px;
+}
+.notepad .popbox .pop-lixt .pop-header {
+  width: 100%;
+  height: 37px;
+  border-bottom: 1px solid #888;
+}
+.notepad .popbox .pop-lixt .pop-header .pop-close {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #888;
+  margin-right: 5px;
+  margin-top: 4px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.notepad .popbox .pop-lixt .pop-header .pop-close:hover {
+  background: #efefef;
+}
+.notepad .popbox .pop-lixt .pop-inner {
+  width: calc(100% - 30px);
+  height: calc(100% - 103px);
+  border-bottom: 1px solid #888;
+  text-align: center;
+  padding: 10px 15px;
+}
+.notepad .popbox .pop-lixt .pop-inner .pop-center {
+  display: inline-block;
+  line-height: 24px;
+  color: #333;
+}
+.notepad .popbox .pop-lixt .pop-btn {
+  width: 100%;
+  height: 44px;
+  text-align: center;
+  line-height: 44px;
+}
+.notepad .popbox .pop-lixt .pop-btn .btn-ensure {
+  width: 100px;
+  height: 44px;
+  line-height: 44px;
+  background: #52d2c2;
+  padding: 5px 15px;
+  border-radius: 3px;
+  color: #fff;
+  cursor: pointer;
+}

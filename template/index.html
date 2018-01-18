@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>记事本</title>
+    <link rel="stylesheet" href="./../css1/public.css">
+    <link rel="stylesheet" href="../css/index.css">
+</head>
+
+<body>
+    <div class="notepad">
+        <div class="not-box">
+            <header class="not-title">备忘录</header>
+            <div class="not-search clerfix">
+                <input type="text" class="fl" onchange="searchText(this.value)" id="SearchInner" name="">
+                <input type="button" class="not-empty" id="empty" value="X" onclick="emptyBtn()">
+                <input type="button" class="fl" onclick="searchBtn()" value="搜索">
+            </div>
+            <div class="not-list-box active" id="NotBox">
+                <ul class="not-list" id="notlist"></ul>
+                <div class="not-len"><span id="NotLen"></span></div>
+            </div>
+            <div class="not-word" id="NotWord">
+                <div class="not-time clearfix">
+                    <span class="fl" style="margin-left:10px">标题</span>
+                    <input type="text" class="fl" id="title">
+                    <span id="time" class="time fr"></span>
+                </div>
+                <textarea name="word" id="word"></textarea>
+            </div>
+            <div class="not-btn clearfix">
+                <input type="button" class="active" id="revisionBtn" value="完成" onclick="revisionProject()">
+                <input type="button" class="active" id="perform" value="完成" onclick="perform()">
+                <input type="button" class="active" id="cancel" value="取消" onclick="cancel()">
+                <input type="button" value="添加" id="Add" onclick="Addvalue()">
+            </div>
+        </div>
+        <div class="popbox" id="popbox"></div>
+        <!-- <div class="modal" id="modal"></div> -->
+    </div>
+</body>
+<script src="./../js/jquery.1.12.3.js"></script>
+<script src="./../js/pop.js"></script>
+<script>
+    // 预加载
+    // $(document).ready(function() {
+    //     })
+    window.onload = function() {
+            this.GetTime()
+            this.ReadData()
+        }
+        //全局变量
+    var ItenNum = '';
+    //清空input 内容
+    function emptyBtn() {
+        document.getElementById('SearchInner').value = '';
+        document.getElementById('empty').classList.remove('active'); //input清空按钮
+        this.ReadData();
+    }
+    //input字段查询
+    function searchText(data) {
+        var inner = document.getElementById('SearchInner').value;
+        if (!inner) {
+            this.ReadData();
+            document.getElementById('empty').classList.remove('active'); //input清空按钮
+            return;
+        } else {
+            this.searchBtn();
+            document.getElementById('empty').classList.add('active'); //input清空按钮
+        }
+    }
+    //点击搜索
+    function searchBtn() {
+        var inner = document.getElementById('SearchInner').value;
+        if (!inner) {
+            this.ReadData();
+            document.getElementById('empty').classList.add('active'); //input清空按钮
+            return;
+        }
+        var DataList = [];
+        var ArrayData = JSON.parse(localStorage.getItem('notepad'));
+        for (var i = 0; i < ArrayData.length; i++) {
+            var Item = ArrayData[i];
+            var Title = Item.title.indexOf(inner) > -1;
+            var Cont = Item.cont.indexOf(inner) > -1;
+            if (Title || Cont) {
+                DataList.push(Item)
+            }
+        }
+        this.RendererList(DataList)
+    }
+    //获取时间
+    function GetTime() {
+        var Time = new Date()
+        var curtime = Time.pattern("yyyy-MM-dd"); //yyyy-MM-dd HH:mm:ss
+        var timeinfo = document.getElementById('time');
+        timeinfo.innerText = curtime;
+    }
+    // 点击某一项
+    function ItemProject(data) {
+        var item = JSON.parse(localStorage.getItem('notepad'))[data];
+        document.getElementById('NotWord').classList.add('active'); //word显示
+        document.getElementById('NotBox').classList.remove('active'); //列表 隐藏
+        document.getElementById('Add').classList.add('active'); //添加按钮 隐藏 
+        document.getElementById('cancel').classList.remove('active');
+        document.getElementById('revisionBtn').classList.remove('active');
+        this.ItenNum = data;
+        document.getElementById('title').value = item.title;
+        document.getElementById('word').value = item.cont;
+    }
+    // 修改
+    function revisionProject() {
+        var ArrayData = JSON.parse(localStorage.getItem('notepad'));
+        var item = ArrayData[this.ItenNum];
+        document.getElementById('NotBox').classList.add('active');
+        document.getElementById('NotWord').classList.remove('active');
+        document.getElementById('perform').classList.add('active');
+        document.getElementById('cancel').classList.add('active');
+        document.getElementById('Add').classList.remove('active');
+        document.getElementById('revisionBtn').classList.add('active');
+        var title = document.getElementById('title').value;
+        var word = document.getElementById('word').value;
+        var item = {
+            'title': title,
+            'date': item.date,
+            'type': item.type,
+            'cont': word,
+        };
+        ArrayData.splice(this.ItenNum, 1, item)
+        document.getElementById('title').value = '';
+        document.getElementById('word').value = '';
+        var ArrayStr = JSON.stringify(ArrayData); //将json对象转换成json对符串
+        this.ReserveData('notepad', ArrayStr)
+    }
+    // 删除
+    function deleteProject(data) {
+        var ArrayData = JSON.parse(localStorage.getItem('notepad'));
+        ArrayData.splice(data, 1)
+        var ArrayStr = JSON.stringify(ArrayData); //将json对象转换成json对符串
+        this.ReserveData('notepad', ArrayStr)
+    }
+    // 点击取消
+    function cancel() {
+        document.getElementById('NotBox').classList.add('active');
+        document.getElementById('NotWord').classList.remove('active');
+        document.getElementById('perform').classList.add('active');
+        document.getElementById('cancel').classList.add('active');
+        document.getElementById('Add').classList.remove('active');
+        document.getElementById('revisionBtn').classList.add('active');
+    }
+    // 点击添加
+    function Addvalue() {
+        document.getElementById('Add').classList.add('active');
+        document.getElementById('perform').classList.remove('active');
+        document.getElementById('cancel').classList.remove('active');
+        document.getElementById('NotWord').classList.add('active');
+        document.getElementById('NotBox').classList.remove('active');
+        document.getElementById('title').value = '';
+        document.getElementById('word').value = '';
+    }
+    // 点击完成
+    function perform() {
+        // JSON.parse(jsonstr); //可以将json字符串转换成json对象 
+        // JSON.stringify(jsonobj); //可以将json对象转换成json对符串 
+        var title = document.getElementById('title').value;
+        if (!title) { //没有添加标题
+            document.getElementById('popbox').style.display = 'block';
+            document.getElementById('popinner').innerHTML = '请添加标题!';
+            return;
+        }
+        document.getElementById('perform').classList.add('active');
+        document.getElementById('cancel').classList.add('active');
+        document.getElementById('Add').classList.remove('active');
+        document.getElementById('NotBox').classList.add('active');
+        document.getElementById('NotWord').classList.remove('active');
+        var curtime = new Date().pattern("yyyy/MM/dd"); //添加现在有数据
+        var word = document.getElementById('word').value;
+        var oldlist = {
+            'title': title,
+            'date': curtime,
+            'type': new Date().pattern("yyyyMMddHHmmss"),
+            'cont': word,
+        };
+        var oldword = localStorage.getItem('notepad') ? localStorage.getItem('notepad') : ''; //获取历史数据
+        if (oldword) { //有历史数据
+            var ArrayData = JSON.parse(oldword) //将json字符串转换成json对象 
+            ArrayData.push(oldlist)
+        } else { //有没有历史数据
+            var ArrayData = [];
+            ArrayData.push(oldlist);
+        }
+        var ArrayStr = JSON.stringify(ArrayData); //将json对象转换成json对符串
+        this.ReserveData('notepad', ArrayStr)
+        document.getElementById('title').value = '';
+        document.getElementById('word').value = '';
+    }
+    // 存储数据
+    function ReserveData(key, value) {
+        localStorage.setItem(key, value);
+        this.ReadData(); //保存数据后更新列表
+    }
+    // 读取本地数据
+    function ReadData() {
+        var init = { //初始化数据
+            title: '记事本',
+            date: new Date().toLocaleString(),
+            type: new Date().pattern("yyyyMMddHHmmss"),
+            cont: '这是一个笔记应用,不需要联网,也不需要数据库,可以直接把数据储存在本地.方便易用!^_^'
+        };
+        var oldword = localStorage.getItem('notepad');
+        if (oldword) { //有数据
+            var DataList = JSON.parse(oldword);
+            this.RendererList(DataList)
+        } else { //没有数据
+            var ArrayData = [];
+            ArrayData.push(init);
+            var oldinit = JSON.stringify(ArrayData);
+            localStorage.setItem('notepad', oldinit);
+        }
+    }
+    //  渲染列表
+    function RendererList(DataList) {
+        var html = '';
+        for (var i = 0; i < DataList.length; i++) {
+            html += '<li class="not-item" onclick="ItemProject(' + i + ')"><div class="not-top clearfix"><span class="not-time fl">' +
+                DataList[i].date + '</span><span class="not-name ellipsis1 fl">' +
+                DataList[i].title + '</span></div><div class="not-bottom"><p class="not-text ellipsis1">' +
+                DataList[i].cont + '</p></div><div class="not-btnbox clearfix">' +
+                '<input type="button" onclick="deleteProject(' + i + ')" class="not-delete fr" value="删除"></div></li>'
+        }
+        var Notlist = document.getElementById('notlist');
+        Notlist.innerHTML = html;
+        document.getElementById('NotLen').innerHTML = DataList.length + '个备忘录';
+    }
+    // 时间格式
+    Date.prototype.pattern = function(fmt) {
+        var o = {
+            "M+": this.getMonth() + 1, //月份
+            "d+": this.getDate(), //日
+            "h+": this.getHours() % 12 == 0 ? 12 : this.getHours() % 12, //小时 12
+            "H+": this.getHours(), //小时24
+            "m+": this.getMinutes(), //分
+            "s+": this.getSeconds(), //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds() //毫秒
+        };
+        var week = {
+            "0": "/u65e5",
+            "1": "/u4e00",
+            "2": "/u4e8c",
+            "3": "/u4e09",
+            "4": "/u56db",
+            "5": "/u4e94",
+            "6": "/u516d"
+        };
+        if (/(y+)/.test(fmt)) {
+            fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        }
+        if (/(E+)/.test(fmt)) {
+            fmt = fmt.replace(RegExp.$1, ((RegExp.$1.length > 1) ? (RegExp.$1.length > 2 ? "/u661f/u671f" :
+                "/u5468") : "") + week[this.getDay() + ""]);
+        }
+        for (var k in o) {
+            if (new RegExp("(" + k + ")").test(fmt)) {
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            }
+        }
+        return fmt;
+    }
+</script>
+
+</html>
