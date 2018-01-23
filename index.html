@@ -136,7 +136,14 @@
         this.ReserveData('notepad', ArrayStr)
     }
     // 删除
-    function deleteProject(data) {
+    function deleteProject(data, ev) {
+        var oEvent = ev || event;
+        alert("this is div1");
+
+        // js阻止事件冒泡
+        oEvent.cancelBubble = true;
+        oEvent.stopPropagation();
+
         var ArrayData = JSON.parse(localStorage.getItem('notepad'));
         ArrayData.splice(data, 1)
         var ArrayStr = JSON.stringify(ArrayData); //将json对象转换成json对符串
